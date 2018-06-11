@@ -159,7 +159,7 @@
 				</div>
 				<div class="input">
 					<input id="input-target-fitness" type="text" value="27.5"/>
-					<span class="label">target fitness</span><span class="tip">(lower is faster, max 35)</span>
+					<span class="label">target fitness</span><span class="tip">(lower is faster)</span>
 					<div class="clear"></div>
 				</div>
 				<div class="input">
@@ -231,7 +231,7 @@
 					}
 
 					var targetFitness = parseFloat(inputTargetFitness.value);
-					if (isNaN(targetFitness) || targetFitness <= 0 || targetFitness > 35) {
+					if (isNaN(targetFitness) || targetFitness <= 0) {
 						inputTargetFitness.style.borderColor = "#f00";
 						go = false;
 					} else {
