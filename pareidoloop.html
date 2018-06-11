@@ -8,8 +8,17 @@
 		<style type="text/css">
 
 			body {
-				padding: 24px;
+				margin: 0;
 				font-family: helvetica;
+			}
+
+			div#main {
+				padding: 32px;
+			}
+
+			.fullscreen {
+				width: 100%;
+				height: 100%;
 			}
 
 			div.gen {
@@ -33,7 +42,7 @@
 				margin : 0 4px 4px 0;
 			}
 
-			canvas {
+			#gen canvas {
 				float: left;
 				margin: 0 6px 0 0;
 				padding: 0;
@@ -135,52 +144,55 @@
 		</style>
 	</head>
 	<body>
-		<h2>pareidoloop</h2>
-		<div id="controls">
-			<div class="input">
-				<input id="input-image-size" type="text" value="50"/>
-				<span class="label">output size</span><span class="tip">(to render finished faces)</span>
-				<div class="clear"></div>
-			</div>
-			<div class="input">
-				<input id="input-target-fitness" type="text" value="27.5"/>
-				<span class="label">target fitness</span><span class="tip">(lower is faster, max 35)</span>
-				<div class="clear"></div>
-			</div>
-			<div class="input">
-				<input id="input-max-gens" type="text" value="6000"/>
-				<span class="label">max generations</span><span class="tip">(cut-off if target not reached)</span>
-				<div class="clear"></div>
-			</div>
-			<div class="input">
-				<button id="input-button" type="button">commence</button>
-				<div class="clear"></div>
-			</div>
-		</div>
-		<div class="hr"></div>
-		<div id="canvases">
-			<div class="gen">
-				<canvas id="canvasB" width="50" height="50"></canvas>
-				<div>
-					<h3>current generation</h3>
-					<span id="scoreB" class="score"></span>
+		<canvas id="canvasC" class="fullscreen"></canvas>
+		<div id="main">
+			<h2>pareidoloop</h2>
+			<div id="controls">
+				<div class="input">
+					<input id="input-image-size" type="text" value="50"/>
+					<span class="label">output size</span><span class="tip">(to render finished faces)</span>
+					<div class="clear"></div>
 				</div>
-				<div class="clear"></div>
-			</div>
-			<div class="gen">
-				<canvas id="canvasA" width="50" height="50"></canvas>
-				<div>
-					<h3>fittest generation</h3>
-					<span id="scoreA" class="score"></span>
+				<div class="input">
+					<input id="input-target-fitness" type="text" value="27.5"/>
+					<span class="label">target fitness</span><span class="tip">(lower is faster, max 35)</span>
+					<div class="clear"></div>
 				</div>
-				<div class="clear"></div>
+				<div class="input">
+					<input id="input-max-gens" type="text" value="6000"/>
+					<span class="label">max generations</span><span class="tip">(cut-off if target not reached)</span>
+					<div class="clear"></div>
+				</div>
+				<div class="input">
+					<button id="input-button" type="button">commence</button>
+					<div class="clear"></div>
+				</div>
 			</div>
+			<div class="hr"></div>
+			<div id="canvases">
+				<div class="gen">
+					<canvas id="canvasB" width="50" height="50"></canvas>
+					<div>
+						<h3>current generation</h3>
+						<span id="scoreB" class="score"></span>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="gen">
+					<canvas id="canvasA" width="50" height="50"></canvas>
+					<div>
+						<h3>fittest generation</h3>
+						<span id="scoreA" class="score"></span>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="hr"></div>
+			<div id="output"></div>
+			<span class="tip"><a href="https://github.com/phl/pareidoloop/blob/master/README.md">about</a> | 
+				<input id="svg-checkbox" type="checkbox"/><label for="svg-checkbox"><span class="u">output:</span>&nbsp;<span class="y">svg</span><span class="n">png</span></label> |
+				<input id="save-checkbox" type="checkbox"/><label for="save-checkbox"><span class="u">autosave images:</span>&nbsp;<span class="y">yes (chrome only)</span><span class="n">no</span></label></span>
 		</div>
-		<div class="hr"></div>
-		<div id="output"></div>
-		<span class="tip"><a href="https://github.com/phl/pareidoloop/blob/master/README.md">about</a> | 
-			<input id="svg-checkbox" type="checkbox"/><label for="svg-checkbox"><span class="u">output:</span>&nbsp;<span class="y">svg</span><span class="n">png</span></label> |
-			<input id="save-checkbox" type="checkbox"/><label for="save-checkbox"><span class="u">autosave images:</span>&nbsp;<span class="y">yes (chrome only)</span><span class="n">no</span></label></span>
 		<script type="text/javascript">
 
 			var inputImageSize = document.getElementById("input-image-size");

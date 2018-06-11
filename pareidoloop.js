@@ -5,7 +5,7 @@ var Pareidoloop = new function() {
     var genCount;
     var lastImprovedGen;
     var faceA, faceB;
-    var canvasA, canvasB, canvasOut, scoreA, scoreB;
+    var canvasA, canvasB, canvasC, canvasOut, scoreA, scoreB;
     var outputCallback;
 
     var settings = {
@@ -50,6 +50,7 @@ var Pareidoloop = new function() {
         scoreA = document.getElementById("scoreA");
         canvasB = document.getElementById("canvasB");
         scoreB = document.getElementById("scoreB");
+        canvasC = document.getElementById("canvasC");
 
         canvasOut = document.createElement("canvas");
 
@@ -69,6 +70,8 @@ var Pareidoloop = new function() {
         clearCanvas(canvasA);
         initCanvas(canvasB, settings.CANVAS_SIZE);
         clearCanvas(canvasB);
+        initCanvas(canvasC);
+        clearCanvas(canvasC);
         initCanvas(canvasOut, settings.OUTPUT_SIZE);
         clearCanvas(canvasOut);
 
@@ -90,10 +93,14 @@ var Pareidoloop = new function() {
 
     var initCanvas = function(canvas, size) {
 
-        canvas.width = canvas.height = size;
+        var width = size !== undefined ? size : canvas.clientWidth;
+        var height = size !== undefined ? size : canvas.clientHeight;
+
+        canvas.width = width;
+        canvas.height = height;
         
         // set origin at center
-        canvas.getContext("2d").setTransform(1, 0, 0, 1, size/2, size/2);
+        canvas.getContext("2d").setTransform(1, 0, 0, 1, width/2, height/2);
     }
 
     var clearCanvas = function(canvas) {
@@ -166,6 +173,12 @@ var Pareidoloop = new function() {
         // render new generation
         clearCanvas(canvasB);
         faceB.draw(canvasB.getContext("2d"));
+
+        var renderScaleWidth = canvasC.width/settings.CANVAS_SIZE;
+        var renderScaleHeight = canvasC.height/settings.CANVAS_SIZE;
+        var renderScale = renderScaleWidth < renderScaleHeight ? renderScaleWidth : renderScaleHeight;
+        clearCanvas(canvasC);
+        faceB.draw(canvasC.getContext("2d"), renderScale);
 
         // test fitness of new generation
         var fitness = faceB.measureFitness(canvasB);
@@ -273,9 +286,12 @@ var Pareidoloop = new function() {
             return Math.min(max, Math.max(min, x));
         };
         
-        this.draw = function(ctx) {
+        this.draw = function(ctx, renderScale) {
             
                    ctx.save();
+                   if (renderScale !== undefined) {
+                       ctx.scale(renderScale,renderScale);
+                   }
                    ctx.translate(origin[0],origin[1]);
                    ctx.scale(scale,scale);
                    ctx.beginPath();
@@ -348,10 +364,10 @@ var Pareidoloop = new function() {
                    return new Face(childQuads);
                }
 
-               this.draw = function(ctx) {
+               this.draw = function(ctx, renderScale) {
                    var numQuads = this.quads.length;
                    for (var i=0; i<numQuads; i++) {
-                       this.quads[i].draw(ctx);
+                       this.quads[i].draw(ctx,renderScale);
                    }
                }
 
