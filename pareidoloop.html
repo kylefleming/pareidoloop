@@ -302,7 +302,9 @@
 				return "face-" + img.width + "x" + img.height + "-" + hash.toString(36) + (svgCheckbox.checked ? ".svg" : ".png");
 			}
 
-			inputButton.click();
+			document.addEventListener("DOMContentLoaded", function(event) {
+				setTimeout(function() { inputButton.click(); }, 3000);
+			});
 
 		</script>
 	</body>
